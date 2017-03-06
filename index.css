@@ -1,0 +1,33 @@
+@import 'normalize.css';
+@import 'commons.css';
+
+body {
+  font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;
+}
+
+* { border-color: grey; }
+
+nav {
+  left: 0;
+  top: 0;
+  position: fixed;
+  width: 11rem;
+  overflow-y: auto;
+  height: 100%;
+}
+
+main {
+  padding-left: 11rem;
+  padding-bottom: 3rem;
+}
+
+pre {
+  margin-bottom: 2rem;
+  padding: 1rem;
+}
+
+section pre:last-of-type { margin-bottom: 0; }
+
+.bg-white { background: white; }
+
+
