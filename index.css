@@ -1,11 +1,10 @@
 @import 'normalize.css';
 @import 'commons.css';
 
-body {
-  font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;
+section,
+nav {
+  background: white;
 }
-
-* { border-color: grey; }
 
 nav {
   left: 0;
@@ -18,16 +17,5 @@ nav {
 
 main {
   padding-left: 11rem;
-  padding-bottom: 3rem;
 }
-
-pre {
-  margin-bottom: 2rem;
-  padding: 1rem;
-}
-
-section pre:last-of-type { margin-bottom: 0; }
-
-.bg-white { background: white; }
-
 

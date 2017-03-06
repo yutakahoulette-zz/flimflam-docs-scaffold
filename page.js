@@ -1,14 +1,25 @@
 const h = require('flimflam/h')
-const url$ = require('flyd-url')
-const ramda = require('ramda')
 const render = require('flimflam/render')
+const scaffold = require('./index.js')
 
 const init = () => {
-  return { } 
+  return { 
+    scaffold: scaffold.init()
+  } 
+}
+
+const dictionary = {
+  'about': h('h1', 'This is the about section')
+, 'cool stuff': h('h2', 'xzcv')
+, 'dsftuff': h('h2', 'xzcv')
+, 'dxcvxcvsftuff': h('h2', 'xzcv')
+, 'dxflkajsdlfkjatuff': h('h2', 'xzcv')
 }
 
 const view = function(state) {
-  return h('h1', 'asdf')
+  return h('div', [
+    scaffold.view(state.scaffold, dictionary)
+  ])
 }
 
 const container = document.getElementById('container')
