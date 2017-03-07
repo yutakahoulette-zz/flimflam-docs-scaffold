@@ -7,6 +7,8 @@ http://yutakahoulette.com/flimflam-docs-scaffold
 
 ###Usage
 
+`npm install flimflam-docs-scaffold`
+
 
 __JS__
 ```js
