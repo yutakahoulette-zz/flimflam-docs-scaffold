@@ -7,7 +7,7 @@ http://yutakahoulette.com/flimflam-docs-scaffold
 
 ###Usage
 
-JS
+__JS__
 ```js
 const h = require('flimflam/h')
 const times = require('ramda/src/times')
