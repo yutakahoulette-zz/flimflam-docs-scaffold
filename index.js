@@ -12,18 +12,18 @@ const upper = txt => txt.charAt(0).toUpperCase() + txt.slice(1)
 
 const hyph = txt => txt.replace(/ /g, '-')
 
-const link = txt => h('a', {props: {href: '#' + hyph(txt)}}, upper(txt))
+const link = txt => h('a.text-decoration-none.hover-underline', {props: {href: '#' + hyph(txt)}}, upper(txt))
 
 const navLi = id$ => txt => 
   h('li.truncate', {class: {'is-selected': hyph(txt) === id$()}}, [
     link(txt)
   ])
 
-const contentLi = txt => h('li.break-word', [link(txt)])
+const contentsLi = txt => h('li.break-word', [link(txt)])
 
 const title = txt => 
-  h('a.h3.mb-3.bold.break-word', {props: {href: '#' + hyph(txt)}}, [
-    h('span.pr-1', upper(txt))
+  h('div.h3.mb-3.bold.break-word', [
+    h('span.pr-1', [link(txt)])
   , h('span.opacity-025', '#')
   ])
 
@@ -45,8 +45,8 @@ const contents = (id$, dict) => {
   return h('div.mb-5.sm-mb-3.lg-hide.md-hide.p-2', [
     h('h3.mt-0.mb-3', 'Contents')
   , h('div.clearfix', [
-      h('ul.col.col-6.mt-0', map(contentLi, halves[0]))
-    , halves[1] ? h('ul.col.col-6.mt-0', map(contentLi, halves[1])) : ''
+      h('ul.col.col-6.mt-0', map(contentsLi, halves[0]))
+    , halves[1] ? h('ul.col.col-6.mt-0', map(contentsLi, halves[1])) : ''
     ])
   ])
 }
@@ -62,7 +62,6 @@ const section = (content, key) =>
 const init = () => ({
   id$: flyd.map(x => x.hash && x.hash.replace('#', ''), url$) 
 })
-
 
 const mapWithIndex = addIndex(map)
 
@@ -99,7 +98,7 @@ const view = (state, obj) =>
     nav(state.id$, obj.dictionary$(), obj.title)
   , h('main.sm-p-0', [
       h('div.max-width-4.px-3.sm-p-0', [
-        obj.header ? obj.header : ''
+        obj.header ? h('div.sm-px-2', [obj.header]) : ''
       , contents(state.id$, obj.dictionary$())
       , h('div', map(key => section(obj.dictionary$()[key], key), keys(obj.dictionary$())))
       ])

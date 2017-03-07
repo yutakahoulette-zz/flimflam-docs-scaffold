@@ -4,11 +4,7 @@ body {
   font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;
   background: rgb(242, 242, 242);
 }
-
-a {
-  text-decoration: none;
-  color: initial;
-}
+a { color: initial }
 
 .tabs--v li.is-selected {
   border-color: rgb(0, 255, 114);

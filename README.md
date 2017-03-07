@@ -7,6 +7,7 @@ http://yutakahoulette.com/flimflam-docs-scaffold
 
 ###Usage
 
+
 __JS__
 ```js
 const h = require('flimflam/h')
