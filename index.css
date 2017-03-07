@@ -15,7 +15,7 @@ nav {
   height: 100%;
 }
 
-main {
-  padding-left: 11rem;
-}
+nav h5 { border-left: 2px solid transparent }
+
+main { padding-left: 11rem }
 

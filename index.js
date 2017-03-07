@@ -1,43 +1,52 @@
 const h = require('flimflam/h')
 const flyd = require('flimflam/flyd')
 const url$ = require('flyd-url')
-const R = require('ramda')
+const splitEvery = require('ramda/src/splitEvery')
+const map = require('ramda/src/map')
+const keys = require('ramda/src/keys')
+const addIndex = require('ramda/src/addIndex')
+const length = require('ramda/src/length')
 const loaded = require('imagesloaded')
 
 const upper = txt => txt.charAt(0).toUpperCase() + txt.slice(1)
+
 const hyph = txt => txt.replace(/ /g, '-')
 
-const link = id$ => txt => 
-  h('li', {class: {'is-selected': hyph(txt) === id$()}}, [
-    h('a.block', {props: {href: '#' + hyph(txt)}}, upper(txt))
+const link = txt => h('a', {props: {href: '#' + hyph(txt)}}, upper(txt))
+
+const navLi = id$ => txt => 
+  h('li.truncate', {class: {'is-selected': hyph(txt) === id$()}}, [
+    link(txt)
   ])
 
+const contentLi = txt => h('li.break-word', [link(txt)])
+
 const title = txt => 
-  h('a.block.h3.mb-3.bold', {props: {href: '#' + hyph(txt)}}, [
+  h('a.h3.mb-3.bold.break-word', {props: {href: '#' + hyph(txt)}}, [
     h('span.pr-1', upper(txt))
   , h('span.opacity-025', '#')
   ])
 
-const nav = (id$, dict) => 
+const nav = (id$, dict, title) => 
   h('nav.sh-1.p-2.sm-hide', [
-    h('ul.tabs--v', 
-      R.map(link(id$), R.keys(dict))
+    title ? h('h5.p-1.m-0.break-word', title) : ''
+  , h('ul.tabs--v', 
+      map(navLi(id$), keys(dict))
     )
   ])
 
-
 const half = arr => {
-  const div = Math.ceil(R.length(arr) / 2)
-  return R.splitEvery(div, arr)
+  const div = Math.ceil(length(arr) / 2)
+  return splitEvery(div, arr)
 }
 
 const contents = (id$, dict) => {
-  const halves = half(R.keys(dict)) 
+  const halves = half(keys(dict)) 
   return h('div.mb-5.sm-mb-3.lg-hide.md-hide.p-2', [
     h('h3.mt-0.mb-3', 'Contents')
   , h('div.clearfix', [
-      h('ul.col.col-6.mt-0', R.map(link(id$), halves[0]))
-    , h('ul.col.col-6.mt-0', R.map(link(id$), halves[1]))
+      h('ul.col.col-6.mt-0', map(contentLi, halves[0]))
+    , halves[1] ? h('ul.col.col-6.mt-0', map(contentLi, halves[1])) : ''
     ])
   ])
 }
@@ -55,7 +64,7 @@ const init = () => ({
 })
 
 
-const mapWithIndex = R.addIndex(R.map)
+const mapWithIndex = addIndex(map)
 
 const scroll = id$ => v => {
   const body = document.body
@@ -73,29 +82,29 @@ const scroll = id$ => v => {
     }
 
     window.addEventListener('scroll', _ => {
-      if(window.innerWidth <= 576) return 
-      R.map(inRange(body.scrollTop, id$), data)
+      // breakPoint is 30 rems (root font size * 30)
+      const breakPoint = Number(window.getComputedStyle(document.body)
+        .getPropertyValue('font-size')
+        .replace(/\D/g,'')) * 30 
+      // nav is hidden when screen is <= 30rem 
+      // so we don't need the scrolling logic 
+      if(window.innerWidth <= breakPoint) return 
+      map(inRange(body.scrollTop, id$), data)
     })
-
-    if(id$()) {
-      window.location.hash = '' 
-      window.location.hash = id$()
-    }
   })
 }
 
-const view = (state, dict) => 
+const view = (state, obj) => 
   h('div', {hook: {insert: scroll(state.id$)}}, [
-    nav(state.id$, dict)
+    nav(state.id$, obj.dictionary$(), obj.title)
   , h('main.sm-p-0', [
       h('div.max-width-4.px-3.sm-p-0', [
-        contents(state.id$, dict)
-      , h('div', R.map(key => section(dict[key], key), R.keys(dict)))
+        obj.header ? obj.header : ''
+      , contents(state.id$, obj.dictionary$())
+      , h('div', map(key => section(obj.dictionary$()[key], key), keys(obj.dictionary$())))
       ])
     ])
   ])
 
-
 module.exports = {init, view} 
-
 
