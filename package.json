@@ -1,6 +1,6 @@
 {
   "name": "flimflam-docs-scaffold",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "scaffold for creating docs with flimflam",
   "style": "index.css",
   "main": "build.js",

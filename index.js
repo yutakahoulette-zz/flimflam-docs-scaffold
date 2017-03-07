@@ -22,7 +22,7 @@ const navLi = id$ => txt =>
 const contentsLi = txt => h('li.break-word', [link(txt)])
 
 const title = txt => 
-  h('div.h3.mb-3.bold.break-word', [
+  h('h3.mb-3.mt-0.break-word', [
     h('span.pr-1', [link(txt)])
   , h('span.opacity-025', '#')
   ])
@@ -42,13 +42,14 @@ const half = arr => {
 
 const contents = (id$, dict) => {
   const halves = half(keys(dict)) 
-  return h('div.mb-5.sm-mb-3.lg-hide.md-hide.p-2', [
-    h('h3.mt-0.mb-3', 'Contents')
-  , h('div.clearfix', [
-      h('ul.col.col-6.mt-0', map(contentsLi, halves[0]))
-    , halves[1] ? h('ul.col.col-6.mt-0', map(contentsLi, halves[1])) : ''
+  return h('div.md-hide.lg-hide', [
+      section(
+        h('div.clearfix', [
+          h('ul.col.col-6.mt-0', map(contentsLi, halves[0]))
+        , halves[1] ? h('ul.col.col-6.mt-0', map(contentsLi, halves[1])) : ''
+        ])
+      , 'contents')
     ])
-  ])
 }
 
 const section = (content, key) => 
@@ -94,7 +95,7 @@ const scroll = id$ => v => {
 }
 
 const view = (state, obj) => 
-  h('div', {hook: {insert: scroll(state.id$)}}, [
+  h('div.pb-5', {hook: {insert: scroll(state.id$)}}, [
     nav(state.id$, obj.dictionary$(), obj.title)
   , h('main.sm-p-0', [
       h('div.max-width-4.px-3.sm-p-0', [
