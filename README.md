@@ -1,4 +1,13 @@
+#A flimflam component for easily generating a docs page.
 
+
+###Example
+http://yutakahoulette.com/flimflam-docs-scaffold
+
+
+###Usage
+
+JS
 ```js
 const h = require('flimflam/h')
 const times = require('ramda/src/times')
@@ -23,7 +32,7 @@ const dictionary = reduce((a, b) => {
     return a
   }, {}, times(identity, 20))
 
-const view = function(state) {
+const view = state => {
   return h('div', [
   , scaffold.view(state.scaffold, {
       dictionary$: flyd.stream(dictionary)
@@ -38,3 +47,12 @@ const container = document.getElementById('container')
 render(view, init(), container)
 ```
 
+__CSS__ (build with postcss and postcss-import)
+```css
+@import 'flimflam-docs-scaffold';
+
+body { background: rgb(242, 242, 242)}
+
+/* sets border color on current nav link */
+.tabs--v li.is-selected { border-color: rgb(0, 255, 114)}
+```
