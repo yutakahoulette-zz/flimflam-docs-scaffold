@@ -32,7 +32,7 @@ var contentsLi = function (txt) {
 };
 
 var title = function (txt) {
-  return h('h3.mb-3.mt-0.break-word', [h('span.pr-1', [link(txt)]), h('span.opacity-025', '#')]);
+  return h('h3.mb-3.mt-0.break-word', [h('span.opacity-025', '#'), h('span.pl-1', [link(txt)])]);
 };
 
 var nav = function (id$, dict, title) {
@@ -48,6 +48,8 @@ var contents = function (id$, dict) {
   var halves = half(keys(dict));
   return h('div.md-hide.lg-hide', [section(h('div.clearfix', [h('ul.col.col-6.mt-0', map(contentsLi, halves[0])), halves[1] ? h('ul.col.col-6.mt-0', map(contentsLi, halves[1])) : '']), 'contents')]);
 };
+
+var toTop = h('a.toTopButton.md-hide.lg-hide.sh-3.z-1.fixed.text-decoration-none.center.circle.cursor-pointer', { props: { href: '#contents' } }, '');
 
 var section = function (content, key) {
   return h('section.mb-5.sm-mb-3', { props: { id: hyph(key) } }, [h('div.sh-1.p-2', [title(key), content])]);
@@ -97,7 +99,7 @@ var scroll = function (id$) {
 var view = function (state, obj) {
   return h('div.pb-5', { hook: { insert: scroll(state.id$) } }, [nav(state.id$, obj.dictionary$(), obj.title), h('main.sm-p-0', [h('div.max-width-4.px-3.sm-p-0', [obj.header ? h('div.sm-px-2', [obj.header]) : '', contents(state.id$, obj.dictionary$()), h('div', map(function (key) {
     return section(obj.dictionary$()[key], key);
-  }, keys(obj.dictionary$())))])])]);
+  }, keys(obj.dictionary$())))])]), toTop]);
 };
 
 module.exports = { init: init, view: view };

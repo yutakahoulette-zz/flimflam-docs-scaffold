@@ -1,6 +1,7 @@
 @import 'normalize.css';
 @import 'commons.css';
 
+.toTopButton,
 section,
 nav {
   background: white;
@@ -18,4 +19,32 @@ nav {
 nav h5 { border-left: 2px solid transparent }
 
 main { padding-left: 11rem }
+
+.toTopButton {
+  bottom: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+}
+
+.toTopButton:after,
+.toTopButton:before {
+  content: '';
+  left: calc(50% - 7px);
+  position: absolute;
+  width: 0; 
+  height: 0; 
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+}
+
+.toTopButton:before {
+  top: calc(50% - 7px);
+  border-bottom: 12px solid grey;
+}
+
+.toTopButton:after {
+  top: calc(50% - 3px);
+  border-bottom: 12px solid white;
+}
 

@@ -23,8 +23,8 @@ const contentsLi = txt => h('li.break-word', [link(txt)])
 
 const title = txt => 
   h('h3.mb-3.mt-0.break-word', [
-    h('span.pr-1', [link(txt)])
-  , h('span.opacity-025', '#')
+    h('span.opacity-025', '#')
+  , h('span.pl-1', [link(txt)])
   ])
 
 const nav = (id$, dict, title) => 
@@ -51,6 +51,9 @@ const contents = (id$, dict) => {
       , 'contents')
     ])
 }
+
+const toTop = 
+  h('a.toTopButton.md-hide.lg-hide.sh-3.z-1.fixed.text-decoration-none.center.circle.cursor-pointer', {props: {href: '#contents'}}, '')
 
 const section = (content, key) => 
   h('section.mb-5.sm-mb-3', {props: {id: hyph(key)}}, [
@@ -104,6 +107,7 @@ const view = (state, obj) =>
       , h('div', map(key => section(obj.dictionary$()[key], key), keys(obj.dictionary$())))
       ])
     ])
+  , toTop
   ])
 
 module.exports = {init, view} 
