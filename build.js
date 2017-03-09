@@ -18,7 +18,7 @@ var hyph = function (txt) {
 };
 
 var link = function (txt) {
-  return h('a.text-decoration-none.hover-underline', { props: { href: '#' + hyph(txt) } }, upper(txt));
+  return h('a.text-decoration-none', { props: { href: '#' + hyph(txt) } }, upper(txt));
 };
 
 var navLi = function (id$) {
@@ -27,7 +27,7 @@ var navLi = function (id$) {
   };
 };
 
-var contentsLi = function (txt) {
+var menuLi = function (txt) {
   return h('li.break-word', [link(txt)]);
 };
 
@@ -44,19 +44,19 @@ var half = function (arr) {
   return splitEvery(div, arr);
 };
 
-var contents = function (id$, dict) {
+var menu = function (id$, dict) {
   var halves = half(keys(dict));
-  return h('div.md-hide.lg-hide', [section(h('div.clearfix', [h('ul.col.col-6.mt-0', map(contentsLi, halves[0])), halves[1] ? h('ul.col.col-6.mt-0', map(contentsLi, halves[1])) : '']), 'contents')]);
+  return h('div.md-hide.lg-hide', [section(h('div.clearfix', [h('ul.col.col-6.mt-0', map(menuLi, halves[0])), halves[1] ? h('ul.col.col-6.mt-0', map(menuLi, halves[1])) : '']), 'menu')]);
 };
 
-var toTop = h('a.bg-white.md-hide.lg-hide.sh-2.z-1.fixed.hover-underline.text-decoration-none.center.circle', {
-  props: { href: '#contents' },
+var toMenu = h('a.small.bg-white.md-hide.lg-hide.sh-2.z-1.fixed.text-decoration-none.center.circle', {
+  props: { href: '#menu' },
   style: {
     'bottom': '1rem',
     'right': '1rem',
     'width': '3rem',
     'line-height': '3rem' }
-}, 'Top');
+}, 'Menu');
 
 var section = function (content, key) {
   return h('section.bg-white.mb-5.sm-mb-3', { props: { id: hyph(key) } }, [h('div.sh-1.p-2', [title(key), content])]);
@@ -107,9 +107,9 @@ var scroll = function (id$) {
 };
 
 var view = function (state, obj) {
-  return h('div.pb-5', { hook: { insert: scroll(state.id$) } }, [nav(state.id$, obj.dictionary$(), obj.title), h('main.sm-p-0', [h('div.max-width-4.px-3.sm-p-0', [obj.header ? h('div.sm-px-2', [obj.header]) : '', contents(state.id$, obj.dictionary$()), h('div', map(function (key) {
+  return h('div.pb-5', { hook: { insert: scroll(state.id$) } }, [nav(state.id$, obj.dictionary$(), obj.title), h('main.sm-p-0', [h('div.max-width-4.px-3.sm-p-0', [obj.header ? h('div.sm-px-2', [obj.header]) : '', menu(state.id$, obj.dictionary$()), h('div', map(function (key) {
     return section(obj.dictionary$()[key], key);
-  }, keys(obj.dictionary$())))])]), toTop]);
+  }, keys(obj.dictionary$())))])]), toMenu]);
 };
 
 module.exports = { init: init, view: view };

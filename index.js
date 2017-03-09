@@ -12,14 +12,14 @@ const upper = txt => txt.charAt(0).toUpperCase() + txt.slice(1)
 
 const hyph = txt => txt.replace(/ /g, '-')
 
-const link = txt => h('a.text-decoration-none.hover-underline', {props: {href: '#' + hyph(txt)}}, upper(txt))
+const link = txt => h('a.text-decoration-none', {props: {href: '#' + hyph(txt)}}, upper(txt))
 
 const navLi = id$ => txt => 
   h('li.truncate', {class: {'is-selected': hyph(txt) === id$()}}, [
     link(txt)
   ])
 
-const contentsLi = txt => h('li.break-word', [link(txt)])
+const menuLi = txt => h('li.break-word', [link(txt)])
 
 const title = txt => 
   h('h3.mb-3.mt-0.break-word', [
@@ -40,27 +40,27 @@ const half = arr => {
   return splitEvery(div, arr)
 }
 
-const contents = (id$, dict) => {
+const menu = (id$, dict) => {
   const halves = half(keys(dict)) 
   return h('div.md-hide.lg-hide', [
       section(
         h('div.clearfix', [
-          h('ul.col.col-6.mt-0', map(contentsLi, halves[0]))
-        , halves[1] ? h('ul.col.col-6.mt-0', map(contentsLi, halves[1])) : ''
+          h('ul.col.col-6.mt-0', map(menuLi, halves[0]))
+        , halves[1] ? h('ul.col.col-6.mt-0', map(menuLi, halves[1])) : ''
         ])
-      , 'contents')
+      , 'menu')
     ])
 }
 
-const toTop = 
-  h('a.bg-white.md-hide.lg-hide.sh-2.z-1.fixed.hover-underline.text-decoration-none.center.circle', {
-    props: {href: '#contents'}
+const toMenu = 
+  h('a.small.bg-white.md-hide.lg-hide.sh-2.z-1.fixed.text-decoration-none.center.circle', {
+    props: {href: '#menu'}
   , style: {
     'bottom': '1rem'
   , 'right' : '1rem'
   , 'width' : '3rem'
   , 'line-height' : '3rem'}
-  }, 'Top')
+  }, 'Menu')
 
 const section = (content, key) => 
   h('section.bg-white.mb-5.sm-mb-3', {props: {id: hyph(key)}}, [
@@ -113,11 +113,11 @@ const view = (state, obj) =>
   , h('main.sm-p-0', [
       h('div.max-width-4.px-3.sm-p-0', [
         obj.header ? h('div.sm-px-2', [obj.header]) : ''
-      , contents(state.id$, obj.dictionary$())
+      , menu(state.id$, obj.dictionary$())
       , h('div', map(key => section(obj.dictionary$()[key], key), keys(obj.dictionary$())))
       ])
     ])
-  , toTop
+  , toMenu
   ])
 
 module.exports = {init, view} 
