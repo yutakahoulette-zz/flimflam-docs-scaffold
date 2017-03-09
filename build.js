@@ -36,7 +36,7 @@ var title = function (txt) {
 };
 
 var nav = function (id$, dict, title) {
-  return h('nav.sh-1.p-2.sm-hide', [title ? h('h5.p-1.m-0.break-word', title) : '', h('ul.tabs--v', map(navLi(id$), keys(dict)))]);
+  return h('nav.bg-white.sh-1.p-2.sm-hide', [title ? h('h5.p-1.m-0.break-word', title) : '', h('ul.tabs--v', map(navLi(id$), keys(dict)))]);
 };
 
 var half = function (arr) {
@@ -49,10 +49,17 @@ var contents = function (id$, dict) {
   return h('div.md-hide.lg-hide', [section(h('div.clearfix', [h('ul.col.col-6.mt-0', map(contentsLi, halves[0])), halves[1] ? h('ul.col.col-6.mt-0', map(contentsLi, halves[1])) : '']), 'contents')]);
 };
 
-var toTop = h('a.toTopButton.md-hide.lg-hide.sh-3.z-1.fixed.text-decoration-none.center.circle.cursor-pointer', { props: { href: '#contents' } }, '');
+var toTop = h('a.bg-white.md-hide.lg-hide.sh-2.z-1.fixed.hover-underline.text-decoration-none.center.circle', {
+  props: { href: '#contents' },
+  style: {
+    'bottom': '1rem',
+    'right': '1rem',
+    'width': '3rem',
+    'line-height': '3rem' }
+}, 'Top');
 
 var section = function (content, key) {
-  return h('section.mb-5.sm-mb-3', { props: { id: hyph(key) } }, [h('div.sh-1.p-2', [title(key), content])]);
+  return h('section.bg-white.mb-5.sm-mb-3', { props: { id: hyph(key) } }, [h('div.sh-1.p-2', [title(key), content])]);
 };
 
 var init = function () {
@@ -71,13 +78,6 @@ var scroll = function (id$) {
     loaded(body, function () {
       var sections = v.elm.querySelectorAll('section');
 
-      var data = mapWithIndex(function (elm, i) {
-        return {
-          top: elm.offsetTop,
-          bottom: sections[i + 1] ? sections[i + 1].offsetTop : body.scrollHeight,
-          id: elm.id };
-      }, sections);
-
       var inRange = function (scrollTop, ID$) {
         return function (x) {
           if (scrollTop >= x.top && scrollTop <= x.bottom && id$ != x.id) id$(x.id);
@@ -85,11 +85,21 @@ var scroll = function (id$) {
       };
 
       window.addEventListener('scroll', function (_) {
+
         // breakPoint is 30 rems (root font size * 30)
         var breakPoint = Number(window.getComputedStyle(document.body).getPropertyValue('font-size').replace(/\D/g, '')) * 30;
+
         // nav is hidden when screen is <= 30rem 
         // so we don't need the scrolling logic 
         if (window.innerWidth <= breakPoint) return;
+
+        var data = mapWithIndex(function (elm, i) {
+          return {
+            top: elm.offsetTop,
+            bottom: sections[i + 1] ? sections[i + 1].offsetTop : body.scrollHeight,
+            id: elm.id };
+        }, sections);
+
         map(inRange(body.scrollTop, id$), data);
       });
     });
