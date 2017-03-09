@@ -28,7 +28,7 @@ const title = txt =>
   ])
 
 const nav = (id$, dict, title) => 
-  h('nav.sh-1.p-2.sm-hide', [
+  h('nav.bg-white.sh-1.p-2.sm-hide', [
     title ? h('h5.p-1.m-0.break-word', title) : ''
   , h('ul.tabs--v', 
       map(navLi(id$), keys(dict))
@@ -53,10 +53,17 @@ const contents = (id$, dict) => {
 }
 
 const toTop = 
-  h('a.toTopButton.md-hide.lg-hide.sh-3.z-1.fixed.text-decoration-none.center.circle.cursor-pointer', {props: {href: '#contents'}}, '')
+  h('a.bg-white.md-hide.lg-hide.sh-2.z-1.fixed.hover-underline.text-decoration-none.center.circle', {
+    props: {href: '#contents'}
+  , style: {
+    'bottom': '1rem'
+  , 'right' : '1rem'
+  , 'width' : '3rem'
+  , 'line-height' : '3rem'}
+  }, 'Top')
 
 const section = (content, key) => 
-  h('section.mb-5.sm-mb-3', {props: {id: hyph(key)}}, [
+  h('section.bg-white.mb-5.sm-mb-3', {props: {id: hyph(key)}}, [
     h('div.sh-1.p-2', [
       title(key)
     , content 
@@ -74,24 +81,27 @@ const scroll = id$ => v => {
   loaded(body, () => {
     const sections = v.elm.querySelectorAll('section') 
 
-    const data = mapWithIndex((elm, i) => ({
-        top: elm.offsetTop
-      , bottom: sections[i+1] ? sections[i+1].offsetTop : body.scrollHeight 
-      , id: elm.id}), sections)
-
     const inRange = (scrollTop, ID$) => x => {
       if(scrollTop >= x.top && scrollTop <= x.bottom && id$ != x.id)
       id$(x.id)
     }
 
     window.addEventListener('scroll', _ => {
+
       // breakPoint is 30 rems (root font size * 30)
       const breakPoint = Number(window.getComputedStyle(document.body)
         .getPropertyValue('font-size')
         .replace(/\D/g,'')) * 30 
+
       // nav is hidden when screen is <= 30rem 
       // so we don't need the scrolling logic 
       if(window.innerWidth <= breakPoint) return 
+
+      const data = mapWithIndex((elm, i) => ({
+          top: elm.offsetTop
+        , bottom: sections[i+1] ? sections[i+1].offsetTop : body.scrollHeight 
+        , id: elm.id}), sections)
+
       map(inRange(body.scrollTop, id$), data)
     })
   })
