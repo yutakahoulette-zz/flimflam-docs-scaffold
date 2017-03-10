@@ -15,6 +15,6 @@ cp page.min.css docs
 echo "browserifying and uglifying page.js..."
 browserify -t babelify page.js | uglifyjs > docs/page.js
 
-echo "browserifying index.js..."
-browserify -t babelify index.js > build.js
+echo "babel index.js..."
+babel index.js > build.js
 
