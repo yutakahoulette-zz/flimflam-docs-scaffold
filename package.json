@@ -1,6 +1,6 @@
 {
   "name": "flimflam-docs-scaffold",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "scaffold for creating docs with flimflam",
   "style": "index.css",
   "main": "build.js",
@@ -24,6 +24,7 @@
     "browserify": "^13.1.0",
     "budo": "^9.2.1",
     "cssnano": "^3.10.0",
+    "commons.css": "0.1.7",
     "es2040": "^1.2.4",
     "postcss": "^5.2.4",
     "postcss-cli": "^2.6.0",
@@ -32,7 +33,6 @@
     "uglifyjs": "^2.4.10"
   },
   "dependencies": {
-    "commons.css": "0.1.7",
     "flimflam": "0.7.1",
     "flyd-url": "0.0.1",
     "imagesloaded": "4.1.1",
